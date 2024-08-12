@@ -6,4 +6,6 @@ cd CRXJS-Vanilla-JS-Example
 npm install
 
 See  
-https://github.com/crxjs/chrome-extension-tools
+https://crxjs.dev/vite-plugin  
+https://developer.chrome.com/docs/extensions/reference/manifest  
+https://vitejs.dev/config/  
