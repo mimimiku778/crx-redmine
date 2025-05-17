@@ -1,15 +1,15 @@
-import { crx, defineManifest } from '@crxjs/vite-plugin'
-import { defineConfig } from 'vite'
+import { crx, defineManifest } from "@crxjs/vite-plugin";
+import { defineConfig } from "vite";
 
 // https://developer.chrome.com/docs/extensions/reference/manifest
 const manifest = defineManifest({
   manifest_version: 3,
-  name: 'CRXJS Vanilla JS Example',
-  version: '1.0.0',
+  name: "CRXJS Vanilla JS Example",
+  version: "1.0.0",
   action: {
-    default_popup: 'index.html',
+    default_popup: "index.html",
   },
-})
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,14 +17,23 @@ export default defineConfig({
   // Without configuring the server, the error "WebSocket connection to 'ws://localhost/' failed" will occur.
   // https://github.com/crxjs/chrome-extension-tools/issues/746#issuecomment-1647484887
   server: {
-    port: 5174,
-    strictPort: true,
-    hmr: {
-      port: 5174,
+    cors: {
+      origin: [
+        // ⚠️ SECURITY RISK: Allows any chrome-extension to access the vite server ⚠️
+        // See https://github.com/crxjs/chrome-extension-tools/issues/971 for more info
+        // I don't believe that the linked issue mentions a potential solution
+        /chrome-extension:\/\//,
+      ],
     },
+  },
+  legacy: {
+    // ⚠️ SECURITY RISK: Allows WebSockets to connect to the vite server without a token check ⚠️
+    // See https://github.com/crxjs/chrome-extension-tools/issues/971 for more info
+    // The linked issue gives a potential fix that @crxjs/vite-plugin could implement
+    skipWebSocketTokenCheck: true,
   },
   build: {
     // Disable inlining to Base64 URLs.
     assetsInlineLimit: 0,
   },
-})
+});
