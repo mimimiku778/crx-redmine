@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 // https://developer.chrome.com/docs/extensions/reference/manifest
 const manifest = defineManifest({
   manifest_version: 3,
-  name: 'CRXJS Vanilla JS Example',
+  name: 'CRX Redmine',
   version: '1.0.0',
   action: {
     default_popup: 'index.html',
