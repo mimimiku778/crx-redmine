@@ -12,12 +12,12 @@ const manifest = defineManifest({
   content_scripts: [
     {
       js: ['content.js'],
-      matches: ['<all_urls>'],
+      matches: ['http://localhost:3000/issues/*'],
     },
   ],
   web_accessible_resources: [
     {
-      resources: ['/*'],
+      resources: ['/public/*'],
       matches: ['<all_urls>'],
     },
   ],
