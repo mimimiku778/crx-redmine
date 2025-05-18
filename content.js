@@ -151,7 +151,7 @@ async function checkBoxEventHandler(e, checkboxIndex, note) {
   // Check if the note is updated and prompt the user
   if (
     !isPrivateNote &&
-    (await noteManagerInstance.isUpdatedNote(noteId, noteText)) &&
+    noteManagerInstance.isUpdatedNote(noteId, noteText) &&
     !confirm('The note has been updated. Do you want to ignore the changes?')
   )
     return
@@ -176,33 +176,6 @@ async function checkBoxEventHandler(e, checkboxIndex, note) {
 
   // Update the note cache with the new text
   !isPrivateNote && noteManagerInstance.updateNoteCache(noteId, newText)
-
-  setEventListeners(note)
-}
-
-/**
- * Wrapper function for checkbox event handler to handle errors and loading state.
- *
- * @param {Event} e - The event object.
- * @param {Number} checkboxIndex - The index of the checkbox.
- * @param {Element} note - The parent element containing checkboxes.
- * @throws {Error} - Any error that occurs during the process.
- */
-async function checkBoxEventHandlerWrapper(e, checkboxIndex, note) {
-  // Prevent default action and set loading state
-  e.preventDefault()
-
-  // Set loading state for the note and checkboxes. if it fails, other checkboxes are already loading
-  if (!setLoading(true, note)) return
-
-  try {
-    await checkBoxEventHandler(e, checkboxIndex, note)
-  } catch (error) {
-    console.error(error)
-  } finally {
-    // Reset loading state for the note and checkboxes
-    setLoading(false, note)
-  }
 }
 
 /**
@@ -211,15 +184,45 @@ async function checkBoxEventHandlerWrapper(e, checkboxIndex, note) {
  */
 function setEventListeners(note) {
   note.querySelectorAll(CHECKBOXES_SELECTOR).forEach((checkbox, checkboxIndex) => {
+    // Skip if the checkbox already has an event listener attached
+    if (checkbox.dataset.listenerAttached === 'true') return
+    checkbox.dataset.listenerAttached = 'true'
+
+    checkbox.addEventListener('click', async (e) => {
+      // Prevent default action and set loading state
+      e.preventDefault()
+
+      // Set loading state for the note and checkboxes. if it fails, other checkboxes are already loading
+      if (!setLoading(true, note)) return
+
+      try {
+        await checkBoxEventHandler(e, checkboxIndex, note)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        // Reset loading state for the note and checkboxes
+        setLoading(false, note)
+      }
+    })
+
+    // Set the cursor style
     checkbox.disabled = false
     checkbox.style.cursor = CHECKBOX_CURSOR
-
-    checkbox.addEventListener('click', async (e) => await checkBoxEventHandlerWrapper(e, checkboxIndex, note))
   })
 }
 
 // Add event listeners to all checkboxes in notes with notes
-const notes = document.querySelectorAll(NOTES_SELECTOR)
-notes.forEach((note) => {
+document.querySelectorAll(NOTES_SELECTOR).forEach((note) => {
   setEventListeners(note)
+
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' || mutation.type === 'subtree' || mutation.type === 'attributes') {
+        setEventListeners(note)
+        return
+      }
+    }
+  })
+
+  observer.observe(note, { childList: true, subtree: true, attributes: true })
 })

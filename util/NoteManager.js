@@ -34,7 +34,7 @@ export default class NoteManager {
    * @returns {Promise<Boolean>}
    * @throws {Error} - Throws an error if the journal is not found.
    */
-  async isUpdatedNote(noteId, noteText) {
+  isUpdatedNote(noteId, noteText) {
     const journal = this.journals.find((item) => item.id === Number(noteId))
     if (!journal) throw new Error(`Journal not found for id: ${noteId}`)
 
