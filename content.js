@@ -8,6 +8,7 @@ const CHECKBOX_CURSOR = 'pointer'
 const NOTE_WAIT_CURSOR = 'progress'
 const CHECKBOX_WAIT_CURSOR = 'progress'
 const NOTES_SELECTOR = '.journal.has-notes'
+const NOTE_HEADER_SELECTOR = 'h4.note-header span.update-info'
 const CHECKBOXES_SELECTOR = '.wiki input[type="checkbox"]'
 
 const noteManagerInstance = await NoteManager.create()
@@ -44,30 +45,24 @@ function setLoading(loading, note) {
 /**
  * Updates the nth markdown checkbox in the textarea content found in the given HTML string.
  *
- * @param {Document} html - The HTML string containing the textarea.
+ * @param {String} noteText - The textarea content (text only).
  * @param {Number} index - The index of the checkbox to update.
- * @param {Boolean} checked - Whether the checkbox is checked or not.
  * @returns {String|false} - The updated textarea content (text only).
  * @throws {Error} - Throws an error if the textarea or checkbox is not found.
  */
-function updateMarkdownCheckbox(dom, index, checked) {
-  // Extract the textarea content from the HTML string
-  const textarea = dom.querySelector('textarea')
-  if (!textarea) throw new Error('Textarea not found in HTML')
-
+function updateMarkdownCheckbox(noteText, index) {
   // Extract the checkbox content from the textarea
-  const text = textarea.value
-  const matches = [...text.matchAll(/(?:-|\d+\.)\s+\[( |x)\]/g)]
+  const matches = [...noteText.matchAll(/(?:-|\d+\.)\s+\[( |x)\]/g)]
   if (!matches[index]) throw new Error('Checkbox not found in textarea')
 
   // Update the checkbox content in the textarea
   const match = matches[index]
   const start = match.index
   const end = start + match[0].length
-  const replacement = match[0].replace(/\[( |x)\]/, checked ? '[ ]' : '[x]')
+  const replacement = match[0].replace(/\[( |x)\]/, match[0].match(/\[(x)\]/)?.[1] === 'x' ? '[ ]' : '[x]')
 
   // Update the textarea value with the new checkbox content
-  return text.slice(0, start) + replacement + text.slice(end)
+  return noteText.slice(0, start) + replacement + noteText.slice(end)
 }
 
 /**
@@ -145,24 +140,26 @@ async function checkBoxEventHandler(e, checkboxIndex, note) {
   const noteId = note.querySelector('.note')?.id.replace('note-', '')
   if (!noteId) throw new Error('Note ID not found')
 
-  // Check if the note is updated and prompt the user
-  if (
-    (await noteManagerInstance.isUpdatedNote(noteId)) &&
-    !confirm('The note has been updated. Do you want to ignore the changes?')
-  )
-    return
-
-  const checkbox = e.target
-  const checked = checkbox.checked
+  const privateNote = note.querySelector(`#journal-${noteId}-private_notes`)
+  const isPrivateNote = privateNote.classList.contains('badge-private')
 
   // Fetch the form HTML from the server like clicking the edit button
   const raw = await ajax(note.querySelector('.contextual a.icon-edit').href)
   const formDom = extractFormElementFromScript(raw).querySelector('form')
+  const noteText = formDom.querySelector('textarea').value
+
+  // Check if the note is updated and prompt the user
+  if (
+    !isPrivateNote &&
+    (await noteManagerInstance.isUpdatedNote(noteId, noteText)) &&
+    !confirm('The note has been updated. Do you want to ignore the changes?')
+  )
+    return
 
   // Create a new FormData object from the form element
   const formData = new FormData(formDom)
   formData.set('commit', formDom.querySelector('input[type="submit"]').value)
-  const newText = updateMarkdownCheckbox(formDom, checkboxIndex, checked)
+  const newText = updateMarkdownCheckbox(noteText, checkboxIndex)
   formData.set('journal[notes]', newText)
 
   // Send the updated form data to the server
@@ -173,15 +170,14 @@ async function checkBoxEventHandler(e, checkboxIndex, note) {
 
   // Update the note with the new html like clicking the save button
   note.querySelector('.journal-actions').innerHTML = responseHtml.journalActions
-  replaceElementWithHTML(note.querySelector(`#journal-${noteId}-private_notes`), responseHtml.privateNotes)
+  replaceElementWithHTML(privateNote, responseHtml.privateNotes)
   replaceElementWithHTML(note.querySelector(`#journal-${noteId}-notes`), responseHtml.notes)
-  replaceElementWithHTML(note.querySelector('h4.note-header span.update-info'), responseHtml.updateInfo)
-
-  // Set event listeners for the updated note
-  setEventListeners(note)
+  replaceElementWithHTML(note.querySelector(NOTE_HEADER_SELECTOR), responseHtml.updateInfo)
 
   // Update the note cache with the new text
-  noteManagerInstance.updateNoteCache(noteId, newText)
+  !isPrivateNote && noteManagerInstance.updateNoteCache(noteId, newText)
+
+  setEventListeners(note)
 }
 
 /**
@@ -217,6 +213,7 @@ function setEventListeners(note) {
   note.querySelectorAll(CHECKBOXES_SELECTOR).forEach((checkbox, checkboxIndex) => {
     checkbox.disabled = false
     checkbox.style.cursor = CHECKBOX_CURSOR
+
     checkbox.addEventListener('click', async (e) => await checkBoxEventHandlerWrapper(e, checkboxIndex, note))
   })
 }

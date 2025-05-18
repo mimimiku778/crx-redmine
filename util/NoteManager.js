@@ -34,16 +34,13 @@ export default class NoteManager {
    * @returns {Promise<Boolean>}
    * @throws {Error} - Throws an error if the journal is not found.
    */
-  async isUpdatedNote(noteId) {
+  async isUpdatedNote(noteId, noteText) {
     const journal = this.journals.find((item) => item.id === Number(noteId))
     if (!journal) throw new Error(`Journal not found for id: ${noteId}`)
 
-    const latestJournal = (await fetchIssueJson(this.issueId)).issue.journals.find((item) => item.id === Number(noteId))
-    if (!latestJournal) throw new Error(`Latest note not found for id: ${noteId}\nThe note may have been deleted.`)
-
     // Normalize line endings for comparison. because the server may return different line endings.
     const normalize = (str) => (str || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n')
-    return normalize(journal.notes) !== normalize(latestJournal.notes)
+    return normalize(journal.notes) !== normalize(noteText)
   }
 
   /**
