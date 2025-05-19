@@ -1,5 +1,5 @@
-import extractIssueIdFromUrl from './extractIssueIdFromCurrentUrl'
-import fetchIssueJson from './fetchIssueJson'
+import fetchIssueJson from "../issues/fetchIssueJson"
+import extractIssueIdFromUrl from "../issues/extractIssueIdFromUrl"
 
 /**
  * NoteManager class to manage notes and their updates.

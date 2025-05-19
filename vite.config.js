@@ -11,7 +11,7 @@ const manifest = defineManifest({
   },
   content_scripts: [
     {
-      js: ['content.js'],
+      js: ['features/checkboxes/content.js'],
       matches: ['http://localhost:3000/issues/*'],
     },
   ],

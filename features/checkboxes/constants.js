@@ -1,0 +1,9 @@
+export const NOTE_CURSOR_STYLE = 'default'
+export const CHECKBOX_CURSOR_STYLE = 'pointer'
+export const NOTE_WAIT_CURSOR_STYLE = 'progress'
+export const CHECKBOX_WAIT_CURSOR_STYLE = 'progress'
+
+export const NOTES_SELECTOR = '.journal.has-notes'
+export const NOTES_EDIT_BTN_SELECTOR = '.contextual a.icon-edit'
+export const NOTE_HEADER_SELECTOR = 'h4.note-header span.update-info'
+export const NOTE_CHECKBOXES_SELECTOR = '.wiki input[type="checkbox"]'
