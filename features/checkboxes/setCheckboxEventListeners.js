@@ -5,10 +5,9 @@ import setLoadingState from './setLoadingState'
 /**
  * Sets event listeners for checkboxes in the note.
  *
- * @param {NoteManager} noteManager - The instance of NoteManager to manage notes.
  * @param {Element} note - The parent element containing checkboxes.
  */
-export default function setCheckboxEventListeners(noteManager, note) {
+export default function setCheckboxEventListeners(note) {
   note.querySelectorAll(NOTE_CHECKBOXES_SELECTOR).forEach((checkbox, checkboxIndex) => {
     // Skip if the checkbox already has an event listener attached
     if (checkbox.dataset.listenerAttached === 'true') return
@@ -22,7 +21,7 @@ export default function setCheckboxEventListeners(noteManager, note) {
       if (!setLoadingState(true, note)) return
 
       try {
-        await checkBoxEventHandler(noteManager, checkboxIndex, note)
+        await checkBoxEventHandler(checkboxIndex, note)
       } catch (error) {
         console.error(error)
       } finally {

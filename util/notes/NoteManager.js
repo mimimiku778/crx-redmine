@@ -24,7 +24,7 @@ export default class NoteManager {
 
   static async create() {
     const issueId = extractIssueIdFromUrl()
-    return new NoteManager(issueId, (await fetchIssueJson(issueId)).issue.journals)
+    return new NoteManager(issueId, [])
   }
 
   /**

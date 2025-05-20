@@ -12,7 +12,7 @@ const manifest = defineManifest({
   content_scripts: [
     {
       js: ['features/checkboxes/content.js'],
-      matches: ['http://localhost:3000/issues/*'],
+      matches: ['https://redmine.dcdev.jp/issues/*'],
     },
   ],
   web_accessible_resources: [
