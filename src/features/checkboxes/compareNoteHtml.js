@@ -10,18 +10,27 @@ import { NOTE_TEXT_SELECTOR } from './constants'
 export default function compareNoteHtml(previewResponseRaw, note) {
   const current = document.createElement('div')
   current.innerHTML = note.querySelector(NOTE_TEXT_SELECTOR).innerHTML.trim()
-
+  // Remove all attributes that are not needed for comparison
   current.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
     checkbox.disabled = true
-    checkbox.hasAttribute('style') && checkbox.attributes.removeNamedItem('style')
-    checkbox.hasAttribute('data-listener-attached') && checkbox.attributes.removeNamedItem('data-listener-attached')
+    checkbox.removeAttribute('data-listener-attached')
   })
   current.querySelectorAll('a').forEach((a) => {
-    a.hasAttribute('target') && a.attributes.removeNamedItem('target')
+    a.removeAttribute('target')
+  })
+  current.querySelectorAll('*').forEach((el) => {
+    el.removeAttribute('style')
+    el.removeAttribute('id')
+    el.removeAttribute('onclick')
   })
 
   const preview = document.createElement('div')
   preview.innerHTML = previewResponseRaw.trim()
+  preview.querySelectorAll('*').forEach((el) => {
+    el.removeAttribute('style')
+    el.removeAttribute('id')
+    el.removeAttribute('onclick')
+  })
 
   return current.isEqualNode(preview)
 }
