@@ -3,7 +3,7 @@
  *
  * @param {String} url - The URL to fetch.
  * @param {String} method - The HTTP method. Defaults to 'GET'.
- * @param {String} body - The request body (optional).
+ * @param {BodyInit | null | undefined} body - The request body (optional).
  * @param {String} csfrToken - The CSRF token (optional). defaults to the meta tag value.
  * @returns {Promise<String>} - The response text or false on error.
  * @throws {Error} - Throws an error if the fetch fails.

@@ -5,6 +5,8 @@ export const CHECKBOX_WAIT_CURSOR_STYLE = 'progress'
 
 export const NOTES_SELECTOR = '.journal.has-notes'
 export const NOTES_EDIT_BTN_SELECTOR = '.contextual a.icon-edit'
+export const NOTES_EDITOR_FORMAT_SELECTOR = '.pwfmt-format'
+export const NOTE_TEXT_SELECTOR = '.wiki'
 export const NOTE_HEADER_SELECTOR = 'h4.note-header span.update-info'
 export const NOTE_CHECKBOXES_SELECTOR = '.wiki input[type="checkbox"]'
 export const PREVIEW_TAB_SELECTOR = '.tab-preview'
