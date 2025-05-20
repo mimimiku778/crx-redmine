@@ -23,6 +23,7 @@ export default function setCheckboxEventListeners(note) {
       try {
         await checkBoxEventHandler(checkboxIndex, note)
       } catch (error) {
+        alert(error.message)
         console.error(error)
       } finally {
         // Reset loading state for the note and checkboxes
