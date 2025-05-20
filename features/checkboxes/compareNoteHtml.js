@@ -8,9 +8,6 @@ import { NOTE_TEXT_SELECTOR } from './constants'
  * @returns {Boolean} - Returns true if the preview HTML is equal to the current note HTML.
  */
 export default function compareNoteHtml(previewResponseRaw, note) {
-  const preview = document.createElement('div')
-  preview.innerHTML = previewResponseRaw.trim()
-
   const current = document.createElement('div')
   current.innerHTML = note.querySelector(NOTE_TEXT_SELECTOR).innerHTML.trim()
 
@@ -22,6 +19,9 @@ export default function compareNoteHtml(previewResponseRaw, note) {
   current.querySelectorAll('a').forEach((a) => {
     a.hasAttribute('target') && a.attributes.removeNamedItem('target')
   })
+
+  const preview = document.createElement('div')
+  preview.innerHTML = previewResponseRaw.trim()
 
   return current.isEqualNode(preview)
 }
