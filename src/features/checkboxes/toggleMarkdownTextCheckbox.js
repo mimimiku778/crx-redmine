@@ -7,6 +7,12 @@
  * @throws {Error} - Throws an error if the checkbox index is invalid.
  */
 export default function toggleMarkdownTextCheckbox(noteText, checkboxIndex) {
+  // Regular expression to match checkboxes in markdown format
+  // Matches:
+  // - [ ] Item 1
+  // - [x] Item 2
+  // something - [ ] Item 3
+  // something - [x] Item 4
   const checkboxRegex = /(?:^\s*|\S\s)(-|\d+\.)\s+\[( |x)\]/gm
 
   // Step 1: Find code blocks and inline code ranges to ignore
