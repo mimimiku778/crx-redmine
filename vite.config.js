@@ -6,19 +6,10 @@ const manifest = defineManifest({
   manifest_version: 3,
   name: 'CRX Redmine',
   version: '1.0.0',
-  action: {
-    default_popup: 'index.html',
-  },
   content_scripts: [
     {
-      js: ['features/checkboxes/content.js'],
+      js: ['src/features/checkboxes/content.js'],
       matches: ['https://redmine.dcdev.jp/issues/*'],
-    },
-  ],
-  web_accessible_resources: [
-    {
-      resources: ['/public/*'],
-      matches: ['<all_urls>'],
     },
   ],
 })
@@ -43,9 +34,5 @@ export default defineConfig({
     // See https://github.com/crxjs/chrome-extension-tools/issues/971 for more info
     // The linked issue gives a potential fix that @crxjs/vite-plugin could implement
     skipWebSocketTokenCheck: true,
-  },
-  build: {
-    // Disable inlining to Base64 URLs.
-    assetsInlineLimit: 0,
   },
 })
