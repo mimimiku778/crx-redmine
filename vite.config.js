@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 // https://developer.chrome.com/docs/extensions/reference/manifest
 const manifest = defineManifest({
   manifest_version: 3,
-  name: 'CRX Redmine',
+  name: 'Redmine Interactive Checkboxes',
   version: '1.0.0',
   content_scripts: [
     {
