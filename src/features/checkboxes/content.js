@@ -11,6 +11,7 @@ import setCheckboxEventListeners from './setCheckboxEventListeners'
   document.querySelectorAll(NOTES_SELECTOR).forEach((note) => {
     setCheckboxEventListeners(note)
 
+    // Observe the note for changes
     const observer = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
         if (mutation.type === 'childList' || mutation.type === 'subtree' || mutation.type === 'attributes') {

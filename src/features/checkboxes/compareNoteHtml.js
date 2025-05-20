@@ -8,9 +8,10 @@ import { NOTE_TEXT_SELECTOR } from './constants'
  * @returns {Boolean} - Returns true if the preview HTML is equal to the current note HTML.
  */
 export default function compareNoteHtml(previewResponseRaw, note) {
+  // Create a new div for the current note and remove unnecessary attributes
+  // for comparison
   const current = document.createElement('div')
   current.innerHTML = note.querySelector(NOTE_TEXT_SELECTOR).innerHTML.trim()
-  // Remove all attributes that are not needed for comparison
   current.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
     checkbox.disabled = true
     checkbox.removeAttribute('data-listener-attached')
@@ -24,6 +25,8 @@ export default function compareNoteHtml(previewResponseRaw, note) {
     el.removeAttribute('onclick')
   })
 
+  // Create a new div for the preview response and remove unnecessary attributes
+  // for comparison
   const preview = document.createElement('div')
   preview.innerHTML = previewResponseRaw.trim()
   preview.querySelectorAll('*').forEach((el) => {
