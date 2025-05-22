@@ -1,0 +1,39 @@
+form {
+  width: 240px;
+  font-size: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 1rem;
+}
+
+form label {
+  display: block;
+  user-select: none;
+}
+
+summary {
+  user-select: none;
+  width: fit-content;
+}
+
+form label:has(input[type='checkbox']),
+input[type='checkbox'],
+summary {
+  cursor: pointer;
+}
+
+summary:hover {
+  text-decoration: underline solid #000;
+}
+
+form textarea {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  margin-top: 0.5rem;
+}
+
+details small {
+  display: block;
+}

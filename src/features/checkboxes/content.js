@@ -1,26 +1,65 @@
-import { NOTES_EDIT_BTN_SELECTOR, NOTES_SELECTOR } from './constants'
-import setCheckboxEventListeners from './setCheckboxEventListeners'
-;(async () => {
-  // Check if is editable page
-  if (!document.querySelector(NOTES_EDIT_BTN_SELECTOR)) {
-    console.log('Not an editable page')
-    return
-  }
+import { STORAGE_KEYS } from '../../popup/constants'
+import {
+  ASSIGNED_USER_NAME_SELECTOR,
+  CURRENT_USER_SELECTOR,
+  NOTES_EDIT_BTN_SELECTOR,
+  NOTES_SELECTOR,
+} from './constants'
+import attachCheckboxEventHandlers from './attachCheckboxEventHandlers'
+import removeCheckboxEventHandlers from './removeCheckboxEventHandlers'
 
-  // Add event listeners to all checkboxes in notes with notes
-  document.querySelectorAll(NOTES_SELECTOR).forEach((note) => {
-    setCheckboxEventListeners(note)
+document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
+  (async () => {
+    async function getStorage() {
+      return await chrome.storage.local.get([STORAGE_KEYS.ENABLED, STORAGE_KEYS.ENABLED_URLS, STORAGE_KEYS.ONLY_MINE])
+    }
 
-    // Observe the note for changes
-    const observer = new MutationObserver((mutationsList) => {
-      for (const mutation of mutationsList) {
-        if (mutation.type === 'childList' || mutation.type === 'subtree' || mutation.type === 'attributes') {
-          setCheckboxEventListeners(note)
-          return
-        }
+    function isFeatureEnabled(storage) {
+      if (storage[STORAGE_KEYS.ENABLED] === undefined) {
+        chrome.storage.local.set({ [STORAGE_KEYS.ENABLED]: true })
+        return true
       }
-    })
 
-    observer.observe(note, { childList: true, subtree: true, attributes: true })
-  })
-})()
+      if (!storage[STORAGE_KEYS.ENABLED]) 
+        return false
+
+      if (
+        storage[STORAGE_KEYS.ENABLED_URLS]?.length &&
+        !storage[STORAGE_KEYS.ENABLED_URLS].some((url) => location.href.startsWith(url))
+      )
+        return false
+
+      if (
+        storage[STORAGE_KEYS.ONLY_MINE] &&
+        document.querySelector(CURRENT_USER_SELECTOR).href !== document.querySelector(ASSIGNED_USER_NAME_SELECTOR).href
+      )
+        return false
+
+      return true
+    }
+
+    /** @return {MutationObserver[][]} */
+    function attachEventHandlers(notes) {
+      return Array.from(notes).map((note) => attachCheckboxEventHandlers(note))
+    }
+
+    function removeEventHandlers(note, observers) {
+      note.forEach((note, i) => removeCheckboxEventHandlers(note, observers?.[i]))
+    }
+
+    const notes = document.querySelectorAll(NOTES_SELECTOR)
+    let observers = []
+    
+    // Check if the edit button is present and the feature is enabled
+    if (isFeatureEnabled(await getStorage())) {
+      // Attach event handlers to checkboxes in the note
+      observers = attachEventHandlers(notes)
+    }
+
+    // Listen for changes in storage
+    chrome.storage.onChanged.addListener(async function () {
+      removeEventHandlers(notes, observers)
+      if (!isFeatureEnabled(await getStorage())) return
+      observers = attachEventHandlers(notes)
+    })
+  })()

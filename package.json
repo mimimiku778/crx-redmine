@@ -1,7 +1,7 @@
 {
-  "name": "crx_example",
+  "name": "redmine_interactive_checkboxes",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.25",
+    "@crxjs/vite-plugin": "^2.0.0-beta.33",
     "vite": "^6"
   }
 }

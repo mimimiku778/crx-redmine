@@ -18,7 +18,7 @@ import compareNoteHtml from './compareNoteHtml'
  * @param {Element} note - The parent element containing checkboxes.
  * @throws {Error} - Any error that occurs during the process.
  */
-export default async function checkBoxEventHandler(checkboxIndex, note) {
+export default async function checkboxEventHandler(checkboxIndex, note) {
   const journalID = note.id.replace('change-', '')
   if (!journalID) throw new Error('Journal ID not found')
 
