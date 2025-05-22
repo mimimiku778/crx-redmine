@@ -8,6 +8,7 @@ import {
 import attachCheckboxEventHandlers from './attachCheckboxEventHandlers'
 import removeCheckboxEventHandlers from './removeCheckboxEventHandlers'
 
+// Check if the edit button is present and the feature is enabled
 document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
   (async () => {
     async function getStorage() {
