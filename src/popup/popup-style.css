@@ -1,3 +1,9 @@
+h1 {
+  font-size: 1rem;
+  margin: 0;
+  user-select: none;
+}
+
 form {
   width: 240px;
   font-size: 1rem;

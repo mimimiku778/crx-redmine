@@ -9,6 +9,7 @@ const t = (key) => TRANSLATIONS[currentLang]?.[key] || key
 export default function renderPopup() {
   document.getElementById('app').innerHTML = /* html */ `
     <form>
+      <h1>${t('Redmine Interactive Checkboxes')}</h1>
       <label><input type="checkbox" id="${STORAGE_KEYS.ENABLED}" /> ${t('Enable feature')}</label>
       <label><input type="checkbox" id="${STORAGE_KEYS.ONLY_MINE}" /> ${t('Only apply to my issues')}</label>
       <div>
