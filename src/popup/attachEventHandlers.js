@@ -26,21 +26,11 @@ export default function attachEventHandlers() {
       .filter(Boolean)
 
     // Store updated settings
-    chrome.storage.local.set(
-      {
-        [STORAGE_KEYS.ENABLED]: enabledCheckbox.checked,
-        [STORAGE_KEYS.ENABLED_URLS]: urlList,
-        [STORAGE_KEYS.ONLY_MINE]: onlyMineCheckbox.checked,
-      },
-      () => {
-        // Optionally, you can add a success message or feedback here
-        console.log('Settings saved:', {
-          enabled: enabledCheckbox.checked,
-          urls: urlList,
-          onlyMine: onlyMineCheckbox.checked,
-        })
-      }
-    )
+    chrome.storage.local.set({
+      [STORAGE_KEYS.ENABLED]: enabledCheckbox.checked,
+      [STORAGE_KEYS.ENABLED_URLS]: urlList,
+      [STORAGE_KEYS.ONLY_MINE]: onlyMineCheckbox.checked,
+    })
   }
 
   // Save settings to chrome.storage when input changes
