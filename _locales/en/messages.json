@@ -1,0 +1,8 @@
+{
+  "ext_name": {
+    "message": "Redmine Interactive Checkboxes"
+  },
+  "ext_desc": {
+    "message": "Make checkboxes in Redmine issues notes interactive. You can change their checked state and automatically update the markdown text of the note."
+  }
+}

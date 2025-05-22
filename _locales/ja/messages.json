@@ -1,0 +1,8 @@
+{
+  "ext_name": {
+    "message": "Redmine Interactive Checkboxes"
+  },
+  "ext_desc": {
+    "message": "Redmineのチケットノート内のチェックボックスをインタラクティブにします。チェックボックスのチェック状態を変更することで、ノートのマークダウンテキストを自動的に更新できます。"
+  }
+}

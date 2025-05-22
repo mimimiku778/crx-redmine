@@ -4,9 +4,12 @@ import { defineConfig } from 'vite'
 // https://developer.chrome.com/docs/extensions/reference/manifest
 const manifest = defineManifest({
   manifest_version: 3,
-  name: 'Redmine Interactive Checkboxes',
+  name: '__MSG_ext_name__',
+  description: '__MSG_ext_desc__',
   version: '1.0.0',
+  default_locale: 'en',
   permissions: ['storage'],
+  host_permissions: ['*://*/issues/*'],
   icons: {
     16: 'icon.png',
     48: 'icon.png',
