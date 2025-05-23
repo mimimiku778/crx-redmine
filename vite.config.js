@@ -11,13 +11,13 @@ const manifest = defineManifest({
   permissions: ['storage'],
   host_permissions: ['*://*/issues/*'],
   icons: {
-    16: 'icon.png',
-    48: 'icon.png',
-    128: 'icon.png',
+    16: 'icon/icon16.png',
+    48: 'icon/icon48.png',
+    128: 'icon/icon128.png',
   },
   action: {
     default_popup: 'src/popup/popup.html',
-    default_icon: 'icon.png',
+    default_icon: 'icon/icon48.png',
   },
   content_scripts: [
     {

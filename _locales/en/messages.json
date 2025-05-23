@@ -3,6 +3,6 @@
     "message": "Redmine Interactive Checkboxes"
   },
   "ext_desc": {
-    "message": "Make checkboxes in Redmine issues notes interactive. You can change their checked state and automatically update the markdown text of the note."
+    "message": "Make checkboxes in Redmine issues notes interactive. Change their checked state and automatically update markdown text of note."
   }
 }

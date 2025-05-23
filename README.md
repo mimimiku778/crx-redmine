@@ -1,11 +1,28 @@
-# CRXJS-Vanilla-JS-Example
-CRXJS Vanilla JS Example
+# ![Image](/icon/icon48.png) Redmine Interactive Checkboxes
+This Chrome extension makes checkboxes in Redmine issue notes interactive.  
+You can toggle checkboxes directly in the note, and the markdown text will be automatically updated.
 
-git clone https://github.com/mimimiku778/CRXJS-Vanilla-JS-Example.git  
-cd CRXJS-Vanilla-JS-Example  
+![Image](/icon/screenshot.png)
+
+## Installation
+
+You can install this extension directly from the [Chrome Web Store](https://chrome.google.com/webstore/).
+
+## For Developers / Building from Source
+
+To build or develop this extension yourself:
+
+```sh
+git clone https://github.com/mimimiku778/redmine-interactive-checkboxes-crx.git
+cd redmine-interactive-checkboxes-crx
 npm install
+```
 
-See  
-https://crxjs.dev/vite-plugin  
-https://developer.chrome.com/docs/extensions/reference/manifest  
-https://vitejs.dev/config/  
+For more information, see CRXJS Vite Plugin official documentation:  
+https://crxjs.dev/vite-plugin/getting-started/vanilla-js/dev-basics
+
+## Development Tools
+
+- [Vite](https://vitejs.dev/)
+- [CRXJS Vite Plugin](https://crxjs.dev/vite-plugin)
+- [Chrome Extensions Manifest Reference](https://developer.chrome.com/docs/extensions/reference/manifest)

@@ -3,7 +3,8 @@ import extractFormElementFromEditBtnResponse from '../../util/notes/extractFormE
 import toggleMarkdownTextCheckbox from './toggleMarkdownTextCheckbox'
 import extractHtmlFromEditUpdateResponse from '../../util/notes/extractHtmlFromEditUpdateResponse'
 import {
-  NOTE_HEADER_SELECTOR,
+  NOTE_HEADER,
+  NOTE_HEADER_UPDATE_INFO_SELECTOR,
   NOTES_EDIT_BTN_SELECTOR,
   NOTES_EDITOR_FORMAT_SELECTOR,
   PREVIEW_TAB_SELECTOR,
@@ -66,5 +67,10 @@ export default async function checkboxEventHandler(checkboxIndex, note) {
   note.querySelector('.journal-actions').innerHTML = responseHtml.journalActions
   replaceElementWithHTML(note.querySelector(`#journal-${journalID}-private_notes`), responseHtml.privateNotes)
   replaceElementWithHTML(note.querySelector(`#journal-${journalID}-notes`), responseHtml.notes)
-  replaceElementWithHTML(note.querySelector(NOTE_HEADER_SELECTOR), responseHtml.updateInfo)
+  const noteHeader = note.querySelector(NOTE_HEADER_UPDATE_INFO_SELECTOR)
+  if (noteHeader) {
+    replaceElementWithHTML(noteHeader, responseHtml.updateInfo)
+  } else {
+    note.querySelector(NOTE_HEADER).insertAdjacentHTML('beforeend', responseHtml.updateInfo)
+  }
 }
