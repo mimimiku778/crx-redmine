@@ -12,7 +12,7 @@ Redmineのチケットノート内のチェックボックスをインタラク�
 ## Installation
 
 You can install this extension directly from [Chrome Web Store](https://chrome.google.com/webstore/).
-
+(This is currently under review.)
 ## For Developers / Building from Source
 
 To build or develop this extension yourself:
