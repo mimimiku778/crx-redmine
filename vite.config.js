@@ -8,7 +8,6 @@ const manifest = defineManifest({
   description: '__MSG_ext_desc__',
   version: '1.0.0',
   default_locale: 'en',
-  permissions: ['storage'],
   host_permissions: ['*://*/issues/*'],
   icons: {
     16: 'icon/icon16.png',
