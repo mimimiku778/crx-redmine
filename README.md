@@ -4,6 +4,11 @@ You can toggle checkboxes directly in the note, and the markdown text will be au
 
 ![Image](/icon/screenshot.png)
 
+## Description (Japanese)
+
+Redmineのチケットノート内のチェックボックスをインタラクティブにします。  
+チェックボックスのチェック状態を変更することで、ノートのマークダウンテキストを自動的に更新できます。
+
 ## Installation
 
 You can install this extension directly from the [Chrome Web Store](https://chrome.google.com/webstore/).
