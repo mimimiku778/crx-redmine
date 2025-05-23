@@ -7,7 +7,7 @@ You can toggle checkboxes directly in the note, and the markdown text will be au
 ## Description (Japanese)
 
 Redmineのチケットノート内のチェックボックスをインタラクティブにします。  
-チェックボックスのチェック状態を変更することで、ノートのマークダウンテキストを自動的に更新できます。
+チェックボックスのチェック状態が変更可能になり、ノートのマークダウンテキストを自動的に更新できます。
 
 ## Installation
 
