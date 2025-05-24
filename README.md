@@ -16,7 +16,7 @@ You can install this extension directly from [Chrome Web Store](https://chrome.g
 
 ## Privacy Policy
 
-[Chrome Extension Privacy Policy](https://mimimiku778.github.io/privacy/en.html)
+[Chrome Extension Privacy Policy](https://mimimiku778.github.io/privacy/en.html)  
 [Chrome Extension Privacy Policy (Japanese)](https://mimimiku778.github.io/privacy/ja.html)
 
 ## Disclaimer
