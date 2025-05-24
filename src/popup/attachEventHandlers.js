@@ -9,7 +9,8 @@ export default function attachEventHandlers() {
 
   // Load settings from chrome.storage and populate the form
   chrome.storage.local.get([STORAGE_KEYS.ENABLED, STORAGE_KEYS.ENABLED_URLS, STORAGE_KEYS.ONLY_MINE], (result) => {
-    enabledCheckbox.checked = Boolean(result[STORAGE_KEYS.ENABLED])
+    const isEnabled = result[STORAGE_KEYS.ENABLED] !== undefined ? Boolean(result[STORAGE_KEYS.ENABLED]) : true
+    enabledCheckbox.checked = isEnabled
     urlsTextarea.value = Array.isArray(result[STORAGE_KEYS.ENABLED_URLS])
       ? result[STORAGE_KEYS.ENABLED_URLS].join('\n')
       : ''

@@ -16,13 +16,8 @@ document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
     }
 
     function isFeatureEnabled(storage) {
-      if (storage[STORAGE_KEYS.ENABLED] === undefined) {
-        chrome.storage.local.set({ [STORAGE_KEYS.ENABLED]: true })
-        return true
-      }
-
-      if (!storage[STORAGE_KEYS.ENABLED]) 
-        return false
+      const isEnabled = storage[STORAGE_KEYS.ENABLED] !== undefined ? Boolean(storage[STORAGE_KEYS.ENABLED]) : true
+      if (!isEnabled) return false
 
       if (
         storage[STORAGE_KEYS.ENABLED_URLS]?.length &&
@@ -50,7 +45,7 @@ document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
 
     const notes = document.querySelectorAll(NOTES_SELECTOR)
     let observers = []
-    
+
     // Check if the edit button is present and the feature is enabled
     if (isFeatureEnabled(await getStorage())) {
       // Attach event handlers to checkboxes in the note
