@@ -4,7 +4,7 @@ export const NOTE_WAIT_CURSOR_STYLE = 'progress'
 export const CHECKBOX_WAIT_CURSOR_STYLE = 'progress'
 
 export const CURRENT_USER_SELECTOR = '#loggedas a'
-export const ASSIGNED_USER_NAME_SELECTOR = '.assigned-to.attribute a'
+export const ASSIGNED_USER_NAME_SELECTOR = '.assigned-to.attribute .user.active'
 export const NOTES_SELECTOR = '.journal.has-notes'
 export const NOTES_EDIT_BTN_SELECTOR = '.contextual a.icon-edit'
 export const NOTES_EDITOR_FORMAT_SELECTOR = '.pwfmt-format'

@@ -7,13 +7,17 @@
  * @throws {Error} - Throws an error if the checkbox index is invalid.
  */
 export default function toggleMarkdownTextCheckbox(noteText, checkboxIndex) {
-  // Regular expression to match checkboxes in markdown format
+  // Match Markdown checkboxes at the start of a line or after whitespace
   // Matches:
-  // - [ ] Item 1
-  // - [x] Item 2
-  // something - [ ] Item 3
-  // something - [x] Item 4
-  const checkboxRegex = /(?:^\s*|\S\s)(-|\d+\.)\s+\[( |x)\]/gm
+  // - [ ] Item
+  // - [x] Item
+  // 1. [ ] Item
+  // 1. [x] Item
+  // Handles any amount of whitespace and both checked/unchecked states
+  // Group 1: start of line or whitespace
+  // Group 2: '-' or numbered list (e.g., '1.')
+  // Group 3: space or 'x' (checkbox state)
+  const checkboxRegex = /(^|\s)(-|\d+\.)\s+\[( |x)\](?=\s)/gm
 
   // Step 1: Find code blocks and inline code ranges to ignore
   const ignoreRanges = []
@@ -25,7 +29,7 @@ export default function toggleMarkdownTextCheckbox(noteText, checkboxIndex) {
   }
 
   // Match inline code: `...`
-  const inlineCodeRegex = /`[^`\n]+`/g
+  const inlineCodeRegex = /`[\s\S]*?`/g
   for (const match of noteText.matchAll(inlineCodeRegex)) {
     ignoreRanges.push([match.index, match.index + match[0].length])
   }
