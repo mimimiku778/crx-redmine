@@ -11,15 +11,13 @@ Redmineのチケットノート内のチェックボックスをインタラク�
 
 ## Installation
 
-You can install this extension directly from [Chrome Web Store](https://chrome.google.com/webstore/).
-(This is currently under review.)
+You can install this extension directly from [Chrome Web Store](https://chromewebstore.google.com/detail/redmine-interactive-check/kndfmhmbgbalimbfflilmndkcjldiphn).
 
 Alternatively, you can download the latest release ZIP file from [the Releases page](https://github.com/mimimiku778/redmine-interactive-checkboxes-crx/releases) of this repository and load it manually into Chrome as an unpacked extension.
 
 ## Installation (Japanese)
 
-この拡張機能は [Chrome ウェブストア](https://chrome.google.com/webstore/) から直接インストールできます。
-（現在審査中です）
+この拡張機能は [Chrome ウェブストア](https://chromewebstore.google.com/detail/redmine-interactive-check/kndfmhmbgbalimbfflilmndkcjldiphn) から直接インストールできます。
 
 または、このリポジトリの [リリースページ](https://github.com/mimimiku778/redmine-interactive-checkboxes-crx/releases) から最新のリリースZIPファイルをダウンロードし、Chromeの「パッケージ化されていない拡張機能」として手動で読み込むこともできます。
 
