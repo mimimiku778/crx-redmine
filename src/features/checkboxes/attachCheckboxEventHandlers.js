@@ -1,15 +1,20 @@
-import { CHECKBOX_CURSOR_STYLE, NOTE_CHECKBOXES_SELECTOR, NOTES_EDIT_BTN_SELECTOR, TAB_CONTENT_SELECTOR } from './constants'
+import {
+  CHECKBOX_CURSOR_STYLE,
+  NOTE_CHECKBOXES_SELECTOR,
+  NOTES_EDIT_BTN_SELECTOR,
+  TAB_CONTENT_SELECTOR,
+} from './constants'
 import setLoadingState from './setLoadingState'
 import checkboxEventHandler from './checkboxEventHandler'
 
 /**
- * Attach event listeners to checkboxes in the note.
+ * Attach event listeners to all checkboxes in a note.
  *
  * @param {Element} note - The parent element containing checkboxes.
  * @param {Object} storage - The storage object containing settings.
- * @returns {MutationObserver} - The observer for monitoring changes in the note.
+ * @throws {Error} If journal ID or edit button URL is not found.
  */
-export default function attachCheckboxEventHandlers(note, storage) {
+function attachCheckboxEventHandlersToAllCheckboxes(note, storage) {
   const tabContent = document.querySelector(TAB_CONTENT_SELECTOR)
   const checkboxes = note.querySelectorAll(NOTE_CHECKBOXES_SELECTOR)
 
@@ -38,17 +43,30 @@ export default function attachCheckboxEventHandlers(note, storage) {
         alert(error.message)
         console.error('Error in checkbox event handler:', error)
       } finally {
+        // Wait for a short time to allow the UI to update
+        await new Promise((resolve) => setTimeout(resolve, 100))
         // Reset loading state
-        setLoadingState(false, tabContent, checkboxes)
+        setLoadingState(false, tabContent)
       }
     }
   })
+}
+
+/**
+ * Attaches event handlers to checkboxes in a note and observes for changes.
+ *
+ * @param {Element} note
+ * @param {Object} storage
+ * @throws {Error} If journal ID or edit button URL is not found.
+ */
+export default function attachCheckboxEventHandlers(note, storage) {
+  attachCheckboxEventHandlersToAllCheckboxes(note, storage)
 
   // Create a MutationObserver to monitor changes in the note
   const observer = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-        attachCheckboxEventHandlers(note, storage)
+        attachCheckboxEventHandlersToAllCheckboxes(note, storage)
         return
       }
     }
