@@ -25,6 +25,17 @@ export default function renderPopup() {
           <small>${t('https://example.com/issues/123')}</small>
         </details>
       </div>
+      <div>
+        <details>
+          <summary>${t('Advanced Settings')}</summary>
+          <label><input type="checkbox" id="${STORAGE_KEYS.SKIP_DIFFERENCE_CHECK}" /> ${t(
+    'Skip difference check'
+  )}</label>
+          <small>${t(
+            'This will skip checking the differences between the browser and the server, reducing server requests and speeding up checkbox updates, which may have unintended consequences if the note is being edited in another session.'
+          )}</small>
+        </details>
+      </div>
     </form>
   `
 

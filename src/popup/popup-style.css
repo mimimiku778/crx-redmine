@@ -29,6 +29,10 @@ summary {
   cursor: pointer;
 }
 
+summary {
+  margin-bottom: 0.5rem;
+}
+
 summary:hover {
   text-decoration: underline solid #000;
 }
@@ -37,9 +41,12 @@ form textarea {
   width: 100%;
   height: 100px;
   resize: none;
-  margin-top: 0.5rem;
 }
 
 details small {
   display: block;
+}
+
+details label {
+  margin-bottom: 0.5rem;
 }

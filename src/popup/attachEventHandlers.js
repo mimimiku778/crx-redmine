@@ -8,14 +8,18 @@ export default function attachEventHandlers() {
   const form = enabledCheckbox.closest('form')
 
   // Load settings from chrome.storage and populate the form
-  chrome.storage.local.get([STORAGE_KEYS.ENABLED, STORAGE_KEYS.ENABLED_URLS, STORAGE_KEYS.ONLY_MINE], (result) => {
-    const isEnabled = result[STORAGE_KEYS.ENABLED] !== undefined ? Boolean(result[STORAGE_KEYS.ENABLED]) : true
-    enabledCheckbox.checked = isEnabled
-    urlsTextarea.value = Array.isArray(result[STORAGE_KEYS.ENABLED_URLS])
-      ? result[STORAGE_KEYS.ENABLED_URLS].join('\n')
-      : ''
-    onlyMineCheckbox.checked = Boolean(result[STORAGE_KEYS.ONLY_MINE])
-  })
+  chrome.storage.local.get(
+    [STORAGE_KEYS.ENABLED, STORAGE_KEYS.ENABLED_URLS, STORAGE_KEYS.ONLY_MINE, STORAGE_KEYS.SKIP_DIFFERENCE_CHECK],
+    (result) => {
+      const isEnabled = result[STORAGE_KEYS.ENABLED] !== undefined ? Boolean(result[STORAGE_KEYS.ENABLED]) : true
+      enabledCheckbox.checked = isEnabled
+      urlsTextarea.value = Array.isArray(result[STORAGE_KEYS.ENABLED_URLS])
+        ? result[STORAGE_KEYS.ENABLED_URLS].join('\n')
+        : ''
+      onlyMineCheckbox.checked = Boolean(result[STORAGE_KEYS.ONLY_MINE])
+      skipDifferenceCheck.checked = Boolean(result[STORAGE_KEYS.SKIP_DIFFERENCE_CHECK])
+    }
+  )
 
   const eventHandler = (e) => {
     if (e.target.id === STORAGE_KEYS.ENABLED_URLS) return
@@ -31,6 +35,7 @@ export default function attachEventHandlers() {
       [STORAGE_KEYS.ENABLED]: enabledCheckbox.checked,
       [STORAGE_KEYS.ENABLED_URLS]: urlList,
       [STORAGE_KEYS.ONLY_MINE]: onlyMineCheckbox.checked,
+      [STORAGE_KEYS.SKIP_DIFFERENCE_CHECK]: skipDifferenceCheck.checked,
     })
   }
 

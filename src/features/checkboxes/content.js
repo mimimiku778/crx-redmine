@@ -12,9 +12,15 @@ import removeCheckboxEventHandlers from './removeCheckboxEventHandlers'
 document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
   (async () => {
     async function getStorage() {
-      return await chrome.storage.local.get([STORAGE_KEYS.ENABLED, STORAGE_KEYS.ENABLED_URLS, STORAGE_KEYS.ONLY_MINE])
+      return await chrome.storage.local.get([
+        STORAGE_KEYS.ENABLED,
+        STORAGE_KEYS.ENABLED_URLS,
+        STORAGE_KEYS.ONLY_MINE,
+        STORAGE_KEYS.SKIP_DIFFERENCE_CHECK,
+      ])
     }
 
+    // Check if the feature is enabled based on storage settings
     function isFeatureEnabled(storage) {
       const isEnabled = storage[STORAGE_KEYS.ENABLED] !== undefined ? Boolean(storage[STORAGE_KEYS.ENABLED]) : true
       if (!isEnabled) return false
@@ -26,7 +32,7 @@ document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
         return false
 
       if (
-        storage[STORAGE_KEYS.ONLY_MINE] &&
+        Boolean(storage[STORAGE_KEYS.ONLY_MINE]) &&
         document.querySelector(CURRENT_USER_SELECTOR).href !== document.querySelector(ASSIGNED_USER_NAME_SELECTOR).href
       )
         return false
@@ -34,32 +40,27 @@ document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
       return true
     }
 
-    function attachEventHandlers(notes) {
-      return Array.from(notes).map((note) => attachCheckboxEventHandlers(note))
-    }
-
-    function removeEventHandlers(notes, observers) {
-      notes.forEach((note, i) => removeCheckboxEventHandlers(note, observers?.[i]))
-    }
-
+    // Selector for all notes in the issue
     const notes = document.querySelectorAll(NOTES_SELECTOR)
-    /** @type {MutationObserver[]} */
-    let observers = []
+    // Observers used to track updates to each note and reassign event handlers accordingly.
+    const observers = []
 
-    // Check if the edit button is present and the feature is enabled
-    if (isFeatureEnabled(await getStorage())) {
-      // Attach event handlers to checkboxes in the note
-      observers = attachEventHandlers(notes)
+    // Update the feature state based on the current storage and attach or remove event handlers accordingly
+    async function updateFeatureState() {
+      observers.length && notes.forEach((note, i) => removeCheckboxEventHandlers(note, observers[i]))
+      observers.length = 0
+
+      const storage = await getStorage()
+      if (!isFeatureEnabled(storage)) return
+
+      // Attach event handlers to each note's checkboxes
+      const newObservers = Array.from(notes).map((note) => attachCheckboxEventHandlers(note, storage))
+      observers.push(...newObservers)
     }
 
-    // Listen for changes in storage
-    chrome.storage.onChanged.addListener(async function () {
-      observers.length && removeEventHandlers(notes, observers)
+    // Initial setup: get storage, check feature state, and attach event handlers
+    await updateFeatureState()
 
-      if (isFeatureEnabled(await getStorage())) {
-        observers = attachEventHandlers(notes)
-      } else {
-        observers = []
-      }
-    })
+    // Listen for changes in storage and update the feature state accordingly
+    chrome.storage.onChanged.addListener(() => updateFeatureState())
   })()

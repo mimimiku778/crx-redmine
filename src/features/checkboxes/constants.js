@@ -1,9 +1,9 @@
-export const NOTE_CURSOR_STYLE = 'default'
+export const TAB_CONTENT_CURSOR_STYLE = 'default'
+export const TAB_CONTENT_WAIT_CURSOR_STYLE = 'progress'
 export const CHECKBOX_CURSOR_STYLE = 'pointer'
-export const NOTE_WAIT_CURSOR_STYLE = 'progress'
-export const CHECKBOX_WAIT_CURSOR_STYLE = 'progress'
 
 export const CURRENT_USER_SELECTOR = '#loggedas a'
+export const TAB_CONTENT_SELECTOR = '.tab-content'
 export const ASSIGNED_USER_NAME_SELECTOR = '.assigned-to.attribute .user.active'
 export const NOTES_SELECTOR = '.journal.has-notes'
 export const NOTES_EDIT_BTN_SELECTOR = '.contextual a.icon-edit'
