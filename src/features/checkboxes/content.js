@@ -34,16 +34,16 @@ document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
       return true
     }
 
-    /** @return {MutationObserver[][]} */
     function attachEventHandlers(notes) {
       return Array.from(notes).map((note) => attachCheckboxEventHandlers(note))
     }
 
-    function removeEventHandlers(note, observers) {
-      note.forEach((note, i) => removeCheckboxEventHandlers(note, observers?.[i]))
+    function removeEventHandlers(notes, observers) {
+      notes.forEach((note, i) => removeCheckboxEventHandlers(note, observers?.[i]))
     }
 
     const notes = document.querySelectorAll(NOTES_SELECTOR)
+    /** @type {MutationObserver[]} */
     let observers = []
 
     // Check if the edit button is present and the feature is enabled
@@ -54,8 +54,12 @@ document.querySelector(`.journal.has-notes ${NOTES_EDIT_BTN_SELECTOR}`) &&
 
     // Listen for changes in storage
     chrome.storage.onChanged.addListener(async function () {
-      removeEventHandlers(notes, observers)
-      if (!isFeatureEnabled(await getStorage())) return
-      observers = attachEventHandlers(notes)
+      observers.length && removeEventHandlers(notes, observers)
+
+      if (isFeatureEnabled(await getStorage())) {
+        observers = attachEventHandlers(notes)
+      } else {
+        observers = []
+      }
     })
   })()

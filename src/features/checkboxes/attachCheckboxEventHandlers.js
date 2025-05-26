@@ -6,10 +6,10 @@ import checkboxEventHandler from './checkboxEventHandler'
  * Attach event listeners to checkboxes in the note.
  *
  * @param {Element} note - The parent element containing checkboxes.
- * @returns {MutationObserver[]} - The observer for monitoring changes in the note.
+ * @returns {MutationObserver} - The observer for monitoring changes in the note.
  */
 export default function attachCheckboxEventHandlers(note) {
-  return Array.from(note.querySelectorAll(NOTE_CHECKBOXES_SELECTOR)).map((checkbox, checkboxIndex) => {
+  Array.from(note.querySelectorAll(NOTE_CHECKBOXES_SELECTOR)).map((checkbox, checkboxIndex) => {
     // Skip if listener is already attached
     if (checkbox.onclick) return
 
@@ -32,16 +32,18 @@ export default function attachCheckboxEventHandlers(note) {
       }
     }
 
-    const observer = new MutationObserver((mutationsList) => {
-      for (const mutation of mutationsList) {
-        if (mutation.type === 'attributes') {
-          attachCheckboxEventHandlers(note)
-          return
-        }
-      }
-    })
-
-    observer.observe(note, { attributes: true })
-    return observer
   })
+  
+  // Create a MutationObserver to monitor changes in the note
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'attributes') {
+        attachCheckboxEventHandlers(note)
+        return
+      }
+    }
+  })
+
+  observer.observe(note, { attributes: true })
+  return observer
 }
