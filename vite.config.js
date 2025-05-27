@@ -6,7 +6,7 @@ const manifest = defineManifest({
   manifest_version: 3,
   name: '__MSG_ext_name__',
   description: '__MSG_ext_desc__',
-  version: '1.0.2',
+  version: '1.1.0',
   default_locale: 'en',
   permissions: ['storage'],
   host_permissions: ['*://*/issues/*'],
