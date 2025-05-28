@@ -16,7 +16,7 @@ export default function renderPopup() {
         <details>
           <summary>${t('Target URLs')}</summary>
           <textarea id="${STORAGE_KEYS.ENABLED_URLS}"></textarea>
-          <small>${t('(Enter with space delimited)')}</small>
+          <small>${t('(Enter with line breaks)')}</small>
           <input id="save" type="button" value="${t('Save URLs')}" />
           <small>${t('The feature will be enabled on URL containing the target URL.')}</small>
           <small>${t('If empty, *://*/issues/* will be used.')}</small>
